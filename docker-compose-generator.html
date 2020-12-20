@@ -51,8 +51,8 @@ services:
   dbeight:
     image: mysql:8.0.21
     restart: always
-    ports:
-      - 3306:3306
+#   ports:
+#     - 3306:3306
     environment:
       MYSQL_DATABASE: {{ shortname }}db
       MYSQL_USER: {{ shortname }}usr
