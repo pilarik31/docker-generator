@@ -1,27 +1,27 @@
 <html>
-    <head>
-        <link rel="stylesheet"
-        href="monokai-sublime.css">
-        
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-        <script src="https://cdn.jsdelivr.net/npm/highlightjs"></script>
-<script>
-  hljs.registerLanguage("vue", window.hljsDefineVue);
-  hljs.initHighlightingOnLoad();
-</script>
 
-    </head>
-  <body>
-    <div id="app">
-   
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vue@next"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlightjs"></script>
+  <script>
+    hljs.registerLanguage("vue", window.hljsDefineVue);
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</head>
+
+<body>
+  <div id="app">
+
     <form action="">
-      <input v-model="domain" type="text" placeholder="domain.cz" v-on:change="hljs.initHighlighting.called = false;hljs.initHighlightingOnLoad();">
-      <input v-model="shortname" type="text" maxlength="6" >
+      <input v-model="domain" type="text" placeholder="domain.cz"
+        v-on:change="hljs.initHighlighting.called = false;hljs.initHighlightingOnLoad();">
+      <input v-model="shortname" type="text" maxlength="6">
     </form>
     <div id="example">
       <p>{{ domain }}</p>
     </div>
-  
+
     <pre><code class="language-yaml">
 version: '3.1'
 
@@ -43,7 +43,7 @@ services:
       WORDPRESS_DB_USER: {{ shortname }}usr
       WORDPRESS_DB_PASSWORD: h6Are7ZMK
       WORDPRESS_DB_NAME: {{ shortname }}db
-#     WORDPRESS_DEBUG: 1
+      WORDPRESS_DEBUG: 0
     volumes:
       - ./web:/var/www/html
 #     - ./nginx-conf:/etc
@@ -79,16 +79,19 @@ networks:
 
   </div>
 
-    
-  <script>
-    var app = new Vue({
-el: '#app',
-data: {
-  domain: 'domain.cz',
-  shortname: 'domain'
-}
-})
-</script>
 
-  </body>
+  <script>
+    const app = {
+      data() {
+        return {
+          domain: 'domain.cz',
+          shortname: 'domain'
+        }
+      }
+    }
+    Vue.createApp(app).mount('#app');
+  </script>
+
+</body>
+
 </html>
