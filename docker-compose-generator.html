@@ -81,15 +81,14 @@ networks:
 
 
   <script>
-    const app = {
+    const app = Vue.createApp({
       data() {
         return {
           domain: 'domain.cz',
           shortname: 'domain'
         }
       }
-    }
-    Vue.createApp(app).mount('#app');
+    }).mount("#app");
   </script>
 
 </body>
