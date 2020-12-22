@@ -39,28 +39,27 @@ services:
       VIRTUAL_HOST: {{ domain }},www.{{ domain }}
       LETSENCRYPT_HOST: {{ domain }},www.{{ domain }}
       LETSENCRYPT_EMAIL: spoluprace@martinkokes.cz
-      WORDPRESS_DB_HOST: dbeight:3306
+      WORDPRESS_DB_HOST: {{ shortname }}dbeight:3306
       WORDPRESS_DB_USER: {{ shortname }}usr
-      WORDPRESS_DB_PASSWORD: h6Are7ZMK
+      WORDPRESS_DB_PASSWORD: {{ password }}
       WORDPRESS_DB_NAME: {{ shortname }}db
       WORDPRESS_DEBUG: 0
     volumes:
       - ./web:/var/www/html
 #     - ./nginx-conf:/etc
 
-  dbeight:
+  {{ shortname }}dbeight:
     image: mysql:8.0.21
     restart: always
-#   ports:
-#     - 3306:3306
     environment:
       MYSQL_DATABASE: {{ shortname }}db
       MYSQL_USER: {{ shortname }}usr
-      MYSQL_PASSWORD: h6Are7ZMK
+      MYSQL_PASSWORD: {{ password }}
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
-      - dbeight:/var/lib/mysql
+      - {{ shortname }}dbeight:/var/lib/mysql
 
+#  For debugging purposes
 #  adminer:
 #    image: adminer
 #    restart: always
@@ -68,7 +67,7 @@ services:
 #      - 8002:8080
 
 volumes:
-  dbeight:
+  {{ shortname }}dbeight:
 
 networks:
   default:
@@ -85,10 +84,15 @@ networks:
       data() {
         return {
           domain: 'domain.cz',
-          shortname: 'domain'
+          shortname: 'domain',
+          dbPassword: randomPassword()
         }
       }
     }).mount("#app");
+
+    function randomPassword() {
+      return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    }
   </script>
 
 </body>
