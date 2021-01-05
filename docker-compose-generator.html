@@ -30,7 +30,7 @@ services:
 
   wordpress:
     depends_on:
-      - dbeight
+      - {{ shortname }}dbeight
     image: wordpress:latest
     restart: always
     expose:
