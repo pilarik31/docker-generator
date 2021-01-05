@@ -17,6 +17,7 @@
       <input v-model="domain" type="text" placeholder="domain.cz"
         v-on:change="hljs.initHighlighting.called = false;hljs.initHighlightingOnLoad();">
       <input v-model="shortname" type="text" maxlength="6">
+      <input v-model="dbPassword" type="text">
     </form>
     <div id="example">
       <p>{{ domain }}</p>
@@ -41,7 +42,7 @@ services:
       LETSENCRYPT_EMAIL: spoluprace@martinkokes.cz
       WORDPRESS_DB_HOST: {{ shortname }}dbeight:3306
       WORDPRESS_DB_USER: {{ shortname }}usr
-      WORDPRESS_DB_PASSWORD: {{ password }}
+      WORDPRESS_DB_PASSWORD: {{ dbPassword }}
       WORDPRESS_DB_NAME: {{ shortname }}db
       WORDPRESS_DEBUG: 0
     volumes:
@@ -54,7 +55,7 @@ services:
     environment:
       MYSQL_DATABASE: {{ shortname }}db
       MYSQL_USER: {{ shortname }}usr
-      MYSQL_PASSWORD: {{ password }}
+      MYSQL_PASSWORD: {{ dbPassword }}
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - {{ shortname }}dbeight:/var/lib/mysql
@@ -85,14 +86,23 @@ networks:
         return {
           domain: 'domain.cz',
           shortname: 'domain',
-          dbPassword: randomPassword()
+          dbPassword: ''
         }
+      },
+      methods: {
+        randomPassword() {
+          return Math.random().toString(36).substring(2, 15)
+          + Math.random().toString(36).substring(2, 15);
+        }
+      },
+      mounted() {
+        this.dbPassword = this.randomPassword();
       }
     }).mount("#app");
 
-    function randomPassword() {
-      return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    }
+    //function randomPassword() {
+    //  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    //}
   </script>
 
 </body>
